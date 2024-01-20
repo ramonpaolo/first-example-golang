@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: server
+spec:
+  containers:
+    - image: r4deu51/simple-server:latest
+      name: server
+      resources:
+        limits:
+          cpu: "200m"
+          memory: "128Mi"
+      ports:
+        - containerPort: 3000
+          name: http
+          protocol: TCP
+
+    - image: datadog/agent:latest
+      name: datadog-agent
+      resources:
+        limits:
+          cpu: "400m"
+          memory: "300Mi"
+      env:
+        - name: "DD_API_KEY"
+          value: ""
+
+        - name: "DD_HOSTNAME"
+          value: "server"
